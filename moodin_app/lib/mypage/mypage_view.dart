@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'mypage_controller.dart';
-import 'mypage_model.dart'; // 모델 이름 반영
+import 'mypage_model.dart';
+import 'package:provider/provider.dart';
+import '../measure/measure_model.dart';
 
 class MyPageView extends StatelessWidget {
   const MyPageView({super.key});
@@ -10,9 +12,24 @@ class MyPageView extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = MyPageController();
     final user = controller.getUserProfile();
+    final measureModel = Provider.of<MeasureModel>(context);
 
     return Scaffold(
       backgroundColor: const Color(0xFFB3E5FC), // 하늘색
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.grey),
+          onPressed: () => Navigator.pop(context),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.home, color: Colors.grey),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
+      ),
       body: Stack(
         children: [
           // 구름 배경
@@ -26,9 +43,9 @@ class MyPageView extends StatelessWidget {
             ),
           ),
 
-          // 상단 텍스트: "무딘 님"
+          // "무딘 님" 텍스트
           Positioned(
-            top: 50,
+            top: 10,
             left: 24,
             child: Text(
               '${user.nickname} 님',
@@ -40,7 +57,7 @@ class MyPageView extends StatelessWidget {
             ),
           ),
 
-          // 하단 흰색 배경
+          // 흰색 아래 배경 + 내용
           Positioned.fill(
             top: 120,
             child: Container(
@@ -57,10 +74,10 @@ class MyPageView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // 연한 하늘색 프로필 카드
+                    // 프로필 카드
                     Container(
                       decoration: BoxDecoration(
-                        color: const Color(0xE6E9F8FF), // 연한 하늘색
+                        color: const Color(0xE6E9F8FF),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       padding: const EdgeInsets.all(16),
@@ -95,21 +112,38 @@ class MyPageView extends StatelessWidget {
 
                     const SizedBox(height: 30),
 
-                    // mood in 텍스트
-                    const Row(
+                    // mood in 텍스트 + 측정 여부에 따라 빨간불 표시
+                    Row(
                       children: [
-                        Icon(Icons.favorite, color: Colors.blue),
-                        SizedBox(width: 8),
-                        Text('오늘 나의 ', style: TextStyle(fontSize: 16)),
-                        Text('mood in',
+                        const Icon(Icons.favorite, color: Colors.blue),
+                        const SizedBox(width: 8),
+                        const Text('오늘 나의 ', style: TextStyle(fontSize: 16)),
+                        const Text('mood in',
                             style: TextStyle(fontSize: 16, color: Colors.blue)),
-                        Text('은', style: TextStyle(fontSize: 16)),
+                        const Text('은', style: TextStyle(fontSize: 16)),
+                        const SizedBox(width: 8),
+                        if (measureModel.isDone) ...[
+                          Text(
+                            '빨간불',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red.shade700,
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          Image.asset(
+                            'assets/images/redlight.png',
+                            width: 24,
+                            height: 24,
+                          ),
+                        ],
                       ],
                     ),
 
                     const SizedBox(height: 30),
 
-                    // 스트레스 추이
+                    // 스트레스 추이 그래프
                     RichText(
                       text: TextSpan(
                         style: const TextStyle(
@@ -158,7 +192,7 @@ class MyPageView extends StatelessWidget {
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
