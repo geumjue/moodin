@@ -2,9 +2,18 @@ import 'package:flutter/material.dart';
 import 'login/login_view.dart';
 import 'signup/signup_view.dart';
 import 'intro/intro_view.dart';
+import 'package:provider/provider.dart'; // 꼭 추가
+import 'measure/measure_model.dart'; // 모델 경로 확인
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => MeasureModel()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
