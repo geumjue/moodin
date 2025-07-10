@@ -2,19 +2,30 @@ import 'package:flutter/material.dart';
 
 enum MeasureState { idle, measuring, done }
 
+enum StressLevel { low, normal, high }
+
 class MeasureModel extends ChangeNotifier {
-  // ✅ 여기 반드시 extends ChangeNotifier
   bool isMeasuring = false;
   bool isDone = false;
 
   int hrv = 0;
   int gsr = 0;
 
-  // 예시로 값을 바꾸면 알림 보내기
   void setMeasuredValues({required int newHrv, required int newGsr}) {
     hrv = newHrv;
     gsr = newGsr;
     isDone = true;
-    notifyListeners(); // ✅ 이게 있어야 UI가 바뀜
+    notifyListeners();
+  }
+
+  StressLevel get stressLevel {
+    final score = hrv + gsr;
+    if (score >= 160) {
+      return StressLevel.high;
+    } else if (score >= 120) {
+      return StressLevel.normal;
+    } else {
+      return StressLevel.low;
+    }
   }
 }

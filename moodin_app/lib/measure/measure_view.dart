@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'measure_model.dart';
 import 'measure_controller.dart';
+import 'package:moodin_app/home/home_view.dart';
 
 class MeasureView extends StatefulWidget {
   const MeasureView({super.key});
@@ -77,14 +78,22 @@ class _MeasureViewState extends State<MeasureView> {
         const SizedBox(height: 16),
         GestureDetector(
           onTap: () {
-            Navigator.pop(context); // ← 측정 후 홈으로 돌아가는 기능 추가 가능
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (_) =>
+                    const HomeView(username: '무딘'), // 여기 username 적절히 바꿔야 함
+              ),
+              (route) => false,
+            );
           },
           child: const Text(
             '결과 보러가기 >',
             style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-                color: Colors.black87),
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              color: Colors.black87,
+            ),
           ),
         ),
       ],
