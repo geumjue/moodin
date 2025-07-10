@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'measure_model.dart';
 import 'measure_controller.dart';
 
@@ -10,14 +11,13 @@ class MeasureView extends StatefulWidget {
 }
 
 class _MeasureViewState extends State<MeasureView> {
-  late MeasureModel _model;
   late MeasureController _controller;
 
   @override
   void initState() {
     super.initState();
-    _model = MeasureModel();
-    _controller = MeasureController(_model);
+    final model = Provider.of<MeasureModel>(context, listen: false);
+    _controller = MeasureController(model);
     _controller.addListener(() => setState(() {}));
   }
 
