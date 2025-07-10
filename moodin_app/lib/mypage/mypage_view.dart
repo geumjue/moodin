@@ -134,8 +134,8 @@ class MyPageView extends StatelessWidget {
                           const SizedBox(width: 6),
                           Image.asset(
                             'assets/images/redlight.png',
-                            width: 24,
-                            height: 24,
+                            width: 50,
+                            height: 50,
                           ),
                         ],
                       ],
