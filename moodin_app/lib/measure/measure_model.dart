@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 
 enum MeasureState { idle, measuring, done }
 
@@ -17,4 +17,13 @@ class MeasureModel extends ChangeNotifier {
     isDone = true;
     notifyListeners(); // ✅ 이게 있어야 UI가 바뀜
   }
+}*/
+enum MeasureState { idle, measuring, done }
+
+class MeasureModel {
+  bool isMeasuring = false;
+  bool isDone = false;
+
+  int hrv = 0;
+  int gsr = 0;
 }

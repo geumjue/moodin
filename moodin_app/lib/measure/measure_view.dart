@@ -11,6 +11,7 @@ class MeasureView extends StatefulWidget {
 }
 
 class _MeasureViewState extends State<MeasureView> {
+  late MeasureModel _model;
   late MeasureController _controller;
 
   @override
